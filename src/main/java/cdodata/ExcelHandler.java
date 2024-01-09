@@ -11,13 +11,12 @@ public class ExcelHandler {
 	static String excelFilePath;
 	static Sheet sheet = null;
 
-    public static void readExcel(String excelFileName, String sheetName) {
+    public static void openWorkbook(String excelFileName, String sheetName) {
         excelFilePath = excelFileName;
     	try (FileInputStream fileInputStream = new FileInputStream(excelFilePath)) {
-            // Open the Excel workbook
+            
             workbook = WorkbookFactory.create(fileInputStream);
 
-            // Access a specific sheet by name
             sheet = workbook.getSheet(sheetName);
 
             
@@ -29,16 +28,14 @@ public class ExcelHandler {
     public static void writeExcel(int rowIndex, int columnIndex, String value) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(excelFilePath)) {
 
-            // Check if the sheet exists
             if (sheet != null) {
-                // Access a specific row
+
                 Row row = sheet.getRow(rowIndex);
-                // If the row does not exist, create a new one
+
                 if (row != null) {
-	                // Access a specific cell in the row
+
 	                Cell cell = row.getCell(columnIndex);
 
-	                // Set the cell value
 	                cell.setCellValue(value);
 
 	                // Save the changes

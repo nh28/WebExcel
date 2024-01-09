@@ -11,7 +11,7 @@ public class WebsiteScraper {
 	public static void parseWebsite(String website) throws IOException{
 		org.jsoup.nodes.Document doc = Jsoup.connect(website).get();
 		
-		// HAVE TO CHANGE BASED ON EN/ FRENCH
+		// Both English and French have the same route
 		Elements allTables = doc.select(
 				"details#normals-data .mrgn-bttm-md mrgn-tp-md pdng-rght-lg expand-collapse-all");
 		int rowIndex = 0;
@@ -24,7 +24,7 @@ public class WebsiteScraper {
 			rowIndex = ExcelHandler.findIndex(groupName, 211) + 2;
 			
 			Elements singleTables = groupTables.select("div.table-responsive"); 
-             // Iterate through the child div elements
+            
              for (Element table : singleTables) {
             	 Element tableBody = table.select("table tbody").first();
             	 Elements rows = tableBody.select("tr");
@@ -41,10 +41,12 @@ public class WebsiteScraper {
             		 
             		 Elements values = row.select("td");
             		 	
-                     // Iterate through the td elements
+                   
                      for (Element value : values) {
                          ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
+                         colIndex++;
                      }
+                     rowIndex++;
             	 }
              }
         }
