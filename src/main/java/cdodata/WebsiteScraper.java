@@ -11,28 +11,39 @@ public class WebsiteScraper {
 	public static void parseWebsite(String website) throws IOException{
 		org.jsoup.nodes.Document doc = Jsoup.connect(website).get();
 		
+		// HAVE TO CHANGE BASED ON EN/ FRENCH
 		Elements allTables = doc.select(
 				"details#normals-data .mrgn-bttm-md mrgn-tp-md pdng-rght-lg expand-collapse-all");
 		int rowIndex = 0;
 		
 		for (Element groupTables : allTables) {
-			 Elements singleTables = groupTables.select("div.table-responsive");
-
+			 
+			Element summaryElement = groupTables.select("summary.background-light").first();
+			String groupName = summaryElement.text();
+			
+			rowIndex = ExcelHandler.findIndex(groupName, 211) + 2;
+			
+			Elements singleTables = groupTables.select("div.table-responsive"); 
              // Iterate through the child div elements
              for (Element table : singleTables) {
             	 Element tableBody = table.select("table tbody").first();
             	 Elements rows = tableBody.select("tr");
             	 
             	 for(Element row : rows) {
-            		 Element tableName = row.selectFirst("th");
-            		 String name = tableName.text();
+            		 Element rowName = row.selectFirst("th");
+            		 String name = rowName.text();
             		 
+            		 int colIndex = 24; // col Y
+            		 
+            		 if(!(name.equals(ExcelHandler.findValue(rowIndex)))){
+            			 rowIndex++;
+            		 }
             		 
             		 Elements values = row.select("td");
-
+            		 	
                      // Iterate through the td elements
                      for (Element value : values) {
-                         
+                         ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
                      }
             	 }
              }

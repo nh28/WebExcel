@@ -71,6 +71,18 @@ public class ExcelHandler {
     	
     }
     
+    public static String findValue(int rowIndex) {
+    	String val = null;
+    	Row row = sheet.getRow(rowIndex);
+        if (row != null) {
+            Cell cell = row.getCell(2);
+            if (cell != null && cell.getCellType() == CellType.STRING) {
+                val = cell.getStringCellValue();
+            }
+        }
+        return val;
+    }
+    
     public static void closeWorkbook(){
     	try {
 			workbook.close();
