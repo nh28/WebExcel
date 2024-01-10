@@ -3,7 +3,7 @@
   <groupId>com.nena</groupId>
   <artifactId>cdodata</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+      
   <dependencies>
     
     <dependency>
@@ -19,4 +19,18 @@
     </dependency>
     
 </dependencies>
+
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <!-- Specify the mainClass to run -->
+                    <mainClass>cdodata.GenerateData</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

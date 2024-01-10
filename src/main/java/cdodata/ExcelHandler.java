@@ -58,7 +58,7 @@ public class ExcelHandler {
                  Cell cell = row.getCell(0); // Assuming you want to search the first column (column index 0)
                  if (cell != null && cell.getCellType() == CellType.STRING) {
                      String cellValue = cell.getStringCellValue();
-                     if (cellValue.equals(targetString)) {
+                     if (cellValue.contains(targetString)) {
                          return rowIndex;
                      }
                  }
