@@ -10,23 +10,27 @@ public class ExcelHandler {
 	static Workbook workbook;
 	static String excelFilePath;
 	static Sheet sheet = null;
+	static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	static final String COMPASS = "NWNESWSE";
 
     public static void openWorkbook(String excelFileName, String sheetName) {
-        excelFilePath = excelFileName;
+        excelFilePath = "src/main/resources/" + excelFileName;
     	try (FileInputStream fileInputStream = new FileInputStream(excelFilePath)) {
             
             workbook = WorkbookFactory.create(fileInputStream);
-
+            
             sheet = workbook.getSheet(sheetName);
+           
 
             
         } catch (IOException | EncryptedDocumentException e) {
-            e.printStackTrace();
+            System.out.println("File not Found");
+        	e.printStackTrace();
         }
     }
 
     public static void writeExcel(int rowIndex, int columnIndex, String value) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(excelFilePath)) {
+    	try (FileOutputStream fileOutputStream = new FileOutputStream(excelFilePath)) {
 
             if (sheet != null) {
 
@@ -36,9 +40,15 @@ public class ExcelHandler {
 
 	                Cell cell = row.getCell(columnIndex);
 
-	                cell.setCellValue(value);
-
+	                if (cell == null)
+	                {
+	                	cell = row.createCell(columnIndex);
+	                }
+	                
+	                	 cell.setCellValue(value);
+	                
 	                // Save the changes
+	                workbook.setForceFormulaRecalculation(true);
 	                workbook.write(fileOutputStream);
                 } 
                 // later add if col does not exist
@@ -58,7 +68,7 @@ public class ExcelHandler {
                  Cell cell = row.getCell(0); // Assuming you want to search the first column (column index 0)
                  if (cell != null && cell.getCellType() == CellType.STRING) {
                      String cellValue = cell.getStringCellValue();
-                     if (cellValue.contains(targetString)) {
+                     if (cellValue.toLowerCase().contains(targetString.toLowerCase())) {
                          return rowIndex;
                      }
                  }
