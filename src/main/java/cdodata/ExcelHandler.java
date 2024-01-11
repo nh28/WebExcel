@@ -10,8 +10,7 @@ public class ExcelHandler {
 	static Workbook workbook;
 	static String excelFilePath;
 	static Sheet sheet = null;
-	static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	static final String COMPASS = "NWNESWSE";
+	static final String NUMBERS = "1234567890.-";
 
     public static void openWorkbook(String excelFileName, String sheetName) {
         excelFilePath = "src/main/resources/" + excelFileName;
@@ -45,7 +44,18 @@ public class ExcelHandler {
 	                	cell = row.createCell(columnIndex);
 	                }
 	                
-	                	 cell.setCellValue(value);
+	                if(!value.equals("") && isANumber(value))
+	                {
+	                	if(value.contains(".")) {
+	                		cell.setCellValue(Double.parseDouble(value));
+	                	}
+	                	else {
+	                		cell.setCellValue(Integer.parseInt(value));
+	                	}
+	                }
+	                else{
+	                	cell.setCellValue(value);
+	                }
 	                
 	                // Save the changes
 	                workbook.setForceFormulaRecalculation(true);
@@ -78,6 +88,17 @@ public class ExcelHandler {
     	
     }
     
+    public static boolean isANumber (String value) {
+    	int i = 0;
+    	
+    	while (i < value.length()) {
+    		if (!(NUMBERS.contains(value.substring(i, i+1)))) {
+    			return false;
+    		}
+    		i++;
+    	}
+    	return true;
+    }
     public static String findValue(int rowIndex) {
     	String val = null;
     	Row row = sheet.getRow(rowIndex);

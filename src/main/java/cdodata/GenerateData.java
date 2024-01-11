@@ -16,7 +16,7 @@ public class GenerateData {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the file name for Excel: ");
-		String excel = "gooseTest4.xlsx";
+		String excel = "gooseTest.xlsx";
 				//input.nextLine();
 		System.out.println("Enter the sheet in Excel you want to write to: ");
 		String sheet = "Data- Archive-Web Tables"; 

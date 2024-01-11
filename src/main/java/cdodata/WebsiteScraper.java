@@ -28,20 +28,25 @@ public class WebsiteScraper {
 	            for(Element row : rows) {
 	            	String rowName = row.select("th").first().text();
 	            	int colIndex = 24; // col Y
-	            		 
-	            	while(!(rowName.equals(ExcelHandler.findValue(rowIndex))) && rowIndex <=rows.size()){
+	 
+	            	while(!(rowName.equals(ExcelHandler.findValue(rowIndex))) && rowIndex < 211){
 	            			 rowIndex++;
 	            	}
-	            		 
-	            	Elements values = row.select("td");
-	            		 	
-	                for (Element value : values) {
-	                    ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
-	                    colIndex++;
-	                }
-	                rowIndex++;
-	            	 
-	             }
+
+					if (rowIndex < 211){
+		            	
+		            	Elements values = row.select("td");
+		            		 	
+		                for (Element value : values) {
+		                    ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
+		                    colIndex++;
+		                }
+		                rowIndex++;
+					}
+					else {
+						System.out.println("Row not found");
+					}
+	            }
 	        }
 		}
     }
