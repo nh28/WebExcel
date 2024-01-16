@@ -38,7 +38,12 @@ public class WebsiteScraper {
 		            	Elements values = row.select("td");
 		            		 	
 		                for (Element value : values) {
-		                    ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
+		                	if (value != null && !value.text().equals("")){
+		                		ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
+		                	}
+		                    if (value.select("b").first() !=  null) {
+		                		ExcelHandler.writeExcel(rowIndex, 36, value.text());
+		                	}
 		                    colIndex++;
 		                }
 		                rowIndex++;

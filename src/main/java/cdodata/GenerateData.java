@@ -16,14 +16,13 @@ public class GenerateData {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the file name for Excel: ");
-		String excel = "gooseTest.xlsx";
+		String excel = "1991-2020 Normals - Data Plan - HAY RIVER - DataT_EN.xlsx";
 				//input.nextLine();
 		System.out.println("Enter the sheet in Excel you want to write to: ");
 		String sheet = "Data- Archive-Web Tables"; 
 				//input.nextLine();
 		System.out.println("Enter the website you want to extract from: ");
-		String web = "https://climate.weather.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=goose&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=66000000&dispBack=1"
-				+ "";
+		String web = "https://climate-dev.cmc.ec.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=hay+river&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=407000000&dispBack=1";
 				//input.nextLine();
 		
 		ExcelHandler.openWorkbook(excel, sheet);
