@@ -45,7 +45,6 @@ abstract class Website {
             	int colIndex = column;
             	
             	if (row.select("td").first() != null){
-            		System.out.println(rowName + rowIndex);
             		while(!(ExcelHandler.findValue(rowIndex).contains(rowName) || rowName.contains(ExcelHandler.findValue(rowIndex))) && rowIndex < 211){
               			 rowIndex++;
                    	}
