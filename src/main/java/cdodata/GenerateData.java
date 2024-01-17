@@ -8,9 +8,6 @@ public class GenerateData {
 	/* WARNINGS: 
 	 * Names are case sensitive, make sure spacing, spelling, etc. in excel is the same as web
 	 * Need to add all table titles in order for it to populate all the data
-	 * Have to manually do frost free
-	 * Some little mistakes due to dev site being different than published site (testing with published site)
-	 * Only for the normals data FOR NOW
 	 * Excel formatting is weird, so have to enter numbers as numbers, not as text
 	 */
 	public static void main(String[] args) {
