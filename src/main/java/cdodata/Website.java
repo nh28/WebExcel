@@ -44,14 +44,18 @@ abstract class Website {
 				String rowName = row.select("th").first().text();
             	int colIndex = column;
             	
-            	while(!(ExcelHandler.findValue(rowIndex).contains(rowName)) && rowIndex < 211){
-       			 rowIndex++;
+            	if (row.select("td").first() != null){
+            		System.out.println(rowName + rowIndex);
+            		while(!(ExcelHandler.findValue(rowIndex).contains(rowName) || rowName.contains(ExcelHandler.findValue(rowIndex))) && rowIndex < 211){
+              			 rowIndex++;
+                   	}
+                   	
+                   	if (rowIndex < 211) { 
+                   		rowIndex = iterateRow(row, rowIndex, colIndex); 
+                   	}
+                   	else { System.out.println("Row not found"); }
             	}
             	
-            	if (rowIndex < 211) { 
-            		rowIndex = iterateRow(row, rowIndex, colIndex); 
-            	}
-            	else { System.out.println("Row not found"); }
 			}
 		}     	 
 	}
