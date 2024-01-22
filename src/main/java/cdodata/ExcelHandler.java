@@ -7,13 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ExcelHandler {
-	static Workbook workbook;
-	static String excelFilePath;
-	static Sheet sheet = null;
-	static final String NUMBERS = "1234567890.-";
+	Workbook workbook;
+	String excelFilePath;
+	Sheet sheet = null;
+	final String NUMBERS = "1234567890.-,";
 
-    public static void openWorkbook(String excelFileName, String sheetName) {
-        excelFilePath = "src/main/resources/" + excelFileName;
+    public ExcelHandler(String excelFileName, String sheetName) {
+        excelFilePath = "src/main/resources/Ops/" + excelFileName;
     	try (FileInputStream fileInputStream = new FileInputStream(excelFilePath)) {
             
             workbook = WorkbookFactory.create(fileInputStream);
@@ -28,7 +28,9 @@ public class ExcelHandler {
         }
     }
 
-    public static void writeExcel(int rowIndex, int columnIndex, String value) {
+    
+
+    public void writeExcel(int rowIndex, int columnIndex, String value) {
     	try (FileOutputStream fileOutputStream = new FileOutputStream(excelFilePath)) {
 
             if (sheet != null) {
@@ -46,6 +48,15 @@ public class ExcelHandler {
 	                
 	                if(!value.equals("") && isANumber(value))
 	                {
+	                	if(value.contains(",")) {
+	                		int index = value.indexOf(",");
+	                		if (value.contains(".")) {
+	                			value = value.substring(0,index) + value.substring(index+1);
+	                		}
+	                		else {
+	                			value = value.substring(0,index) + "." + value.substring(index+1);
+	                		}
+	                	}
 	                	if(value.contains(".")) {
 	                		cell.setCellValue(Double.parseDouble(value));
 	                	}
@@ -71,7 +82,7 @@ public class ExcelHandler {
         }
     }
     
-    public static int findIndex(String targetString, int rowMax){
+    public int findIndex(String targetString, int rowMax){
     	 for (int rowIndex = 0; rowIndex < rowMax; rowIndex++) {
              Row row = sheet.getRow(rowIndex);
              if (row != null) {
@@ -88,7 +99,7 @@ public class ExcelHandler {
     	
     }
     
-    public static boolean isANumber (String value) {
+    public boolean isANumber (String value) {
     	int i = 0;
     	
     	while (i < value.length()) {
@@ -99,7 +110,7 @@ public class ExcelHandler {
     	}
     	return true;
     }
-    public static String findValue(int rowIndex) {
+    public String findValue(int rowIndex) {
     	String val = null;
     	Row row = sheet.getRow(rowIndex);
         if (row != null) {
@@ -111,7 +122,7 @@ public class ExcelHandler {
         return val;
     }
     
-    public static void closeWorkbook(){
+    public void closeWorkbook(){
     	try {
 			workbook.close();
 		} catch (IOException e) {

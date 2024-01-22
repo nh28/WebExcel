@@ -1,10 +1,16 @@
 package cdodata;
 
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class AnalyticsWebsite extends Website{
+	ExcelHandler handler;
+	
+	public AnalyticsWebsite(String excel, String sheet) {
+		handler = new ExcelHandler(excel, sheet);
+	}
 
 	@Override
 	public Elements setElements(Document doc) {
@@ -13,7 +19,7 @@ public class AnalyticsWebsite extends Website{
 
 	@Override
 	public void handleFrostFree(Element FFTable, int rowIndex) {
-		iterateTable(rowIndex, FFTable, COLR);
+		iterateTable(rowIndex, FFTable, COLR, handler);
 		
 	}
 
@@ -21,5 +27,7 @@ public class AnalyticsWebsite extends Website{
 	public int setColIndex() {
 		return COLR;
 	}
+	
+
 
 }
