@@ -16,26 +16,26 @@ abstract class Website {
 	abstract public void handleFrostFree(Element FFTable, int rowIndex);
 	abstract public int setColIndex();
 	
-	public void parseWebsite(String website) throws IOException {
+	public void parseWebsite(String website, ExcelHandler handler) throws IOException {
 		Document doc = Jsoup.connect(website).get();
 		allTables = setElements(doc);
 		
 		int rowIndex = 0;
 		for (Element singleTable : allTables) {
 			String tableName = singleTable.select("a").first().text();
-			rowIndex = ExcelHandler.findIndex(tableName, 211);
+			rowIndex = handler.findIndex(tableName, 211);
 			
-			if (tableName.equals("Frost-Free")) {
+			if (tableName.equals("Frost-Free") || tableName.equals("Sans gel")) {
 				handleFrostFree(singleTable, rowIndex);
 			}
 			else {
-				iterateTable(rowIndex, singleTable, setColIndex());
+				iterateTable(rowIndex, singleTable, setColIndex(), handler);
 			}
 			
 		}
 	}
 	
-	public void iterateTable(int rowIndex, Element singleTable, int column) {
+	public void iterateTable(int rowIndex, Element singleTable, int column, ExcelHandler handler) {
 		if(rowIndex != -1) {
 			rowIndex += 2;
 			Elements rows = singleTable.select("tbody").select("tr");
@@ -45,13 +45,15 @@ abstract class Website {
             	int colIndex = column;
             	
             	if (row.select("td").first() != null){
-            		System.out.println(rowName + rowIndex);
-            		while(!(ExcelHandler.findValue(rowIndex).contains(rowName) || rowName.contains(ExcelHandler.findValue(rowIndex))) && rowIndex < 211){
+            		
+            		while(!(handler.findValue(rowIndex).toLowerCase().contains(rowName.toLowerCase()) || 
+            				rowName.toLowerCase().contains(handler.findValue(rowIndex).toLowerCase())) 
+            				&& rowIndex < 211){
               			 rowIndex++;
                    	}
                    	
                    	if (rowIndex < 211) { 
-                   		rowIndex = iterateRow(row, rowIndex, colIndex); 
+                   		rowIndex = iterateRow(row, rowIndex, colIndex, handler); 
                    	}
                    	else { System.out.println("Row not found"); }
             	}
@@ -60,15 +62,15 @@ abstract class Website {
 		}     	 
 	}
 	
-	public int iterateRow(Element row, int rowIndex, int colIndex) {
+	public int iterateRow(Element row, int rowIndex, int colIndex, ExcelHandler handler) {
 		Elements values = row.select("td");
 		
 		for (Element value : values) {
             if (value != null && !value.text().equals("")){
-            	ExcelHandler.writeExcel(rowIndex, colIndex, value.text());
+            	handler.writeExcel(rowIndex, colIndex, value.text());
             }
             if (value.select("b").first() !=  null) {
-            	ExcelHandler.writeExcel(rowIndex, COLAK, value.text());
+            	handler.writeExcel(rowIndex, COLAK, value.text());
             }
             colIndex++;
         }

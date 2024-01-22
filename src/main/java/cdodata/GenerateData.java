@@ -8,43 +8,51 @@ public class GenerateData {
 	/* WARNINGS: 
 	 * Names are case sensitive, make sure spacing, spelling, etc. in excel is the same as web
 	 * Need to add all table titles in order for it to populate all the data
-	 * Have to manually do frost free
-	 * Some little mistakes due to dev site being different than published site (testing with published site)
-	 * Only for the normals data FOR NOW
 	 * Excel formatting is weird, so have to enter numbers as numbers, not as text
 	 */
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		System.out.println("Enter the file name for Excel: ");
-		String excel = "1991-2020 - Normals - Data Plan - HAY RIVER - AnalyticsT_EN.xlsx";
-				//input.nextLine();
-		System.out.println("Enter the sheet in Excel you want to write to: ");
-		String sheet = "Analytic- Archive-Web Tables"; 
-				//input.nextLine();
-		System.out.println("Enter the website you want to extract from: ");
-		String web = "https://climate-dev.cmc.ec.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=hay+river&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=407000000&dispBack=1";
-				//input.nextLine();
-		System.out.println("Data[D] or Analytics[A]?");
-		String type = input.nextLine();
+		System.out.println("Enter the Data file names for Excel: ");
+		String excel1 = "1991-2020 - Normals - Data Plan - DataT_EN.xlsx";
+		String excel2 = "1991-2020 - Normals - Data Plan - DataT_FR.xlsx";
 		
-		ExcelHandler.openWorkbook(excel, sheet);
+		System.out.println("Enter the Analytics file names for Excel: ");
+		String excel3 = "1991-2020 - Normals - Data Plan - AnalyticsT_EN.xlsx";
+		String excel4 = "1991-2020 - Normals - Data Plan - AnalyticsT_FR.xlsx";
+				
+		String sheetData = "Data- Archive-Web Tables"; 
+		String sheetAnalytics =	"Analytic- Archive-Web Tables"; 
+				
+		System.out.println("Enter the websites (EN and FR) you want to extract from: ");
+		String webEN = "https://climate-stage.cmc.ec.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=london&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=184000000&dispBack=1";
+		String webFR = "https://climat-stage.cmc.ec.gc.ca/climate_normals/results_1991_2020_f.html?searchType=stnName_1991&txtStationName_1991=london&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=184000000&dispBack=1";
+		
 		try {
-			System.out.println("Getting the data...please wait");
-			if (type.equals("D")) {
-				DataWebsite data = new DataWebsite();
-				data.parseWebsite(web);
-			}
-			else {
-				AnalyticsWebsite analytics = new AnalyticsWebsite();
-				analytics.parseWebsite(web);
-			}
+			System.out.println("Getting Data...Please Wait");
+			
+			DataWebsite dataEN = new DataWebsite(excel1, sheetData);
+			dataEN.parseWebsite(webEN, dataEN.handler);
+			System.out.println("1/4 complete");
+			dataEN.handler.closeWorkbook();
+			
+			DataWebsite dataFR = new DataWebsite(excel2, sheetData);
+			dataFR.parseWebsite(webFR, dataFR.handler);
+			System.out.println("2/4 complete");
+			dataFR.handler.closeWorkbook();
+			
+			AnalyticsWebsite analyticsEN = new AnalyticsWebsite(excel3, sheetAnalytics);
+			analyticsEN.parseWebsite(webEN, analyticsEN.handler);
+			System.out.println("3/4 complete");
+			
+			AnalyticsWebsite analyticsFR = new AnalyticsWebsite(excel4, sheetAnalytics);
+			analyticsFR.parseWebsite(webFR, analyticsFR.handler);
+			System.out.println("4/4 complete");
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (ExcelHandler.workbook != null) {
-			ExcelHandler.closeWorkbook();
-		}
-		input.close();
+	
 		System.out.println("Done");
 
 	}
