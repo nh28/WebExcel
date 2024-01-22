@@ -45,7 +45,6 @@ abstract class Website {
             	int colIndex = column;
             	
             	if (row.select("td").first() != null){
-            		
             		while(!(handler.findValue(rowIndex).toLowerCase().contains(rowName.toLowerCase()) || 
             				rowName.toLowerCase().contains(handler.findValue(rowIndex).toLowerCase())) 
             				&& rowIndex < 211){
