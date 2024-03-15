@@ -13,7 +13,7 @@ public class ExcelHandler {
 	final String NUMBERS = "1234567890.-,";
 
     public ExcelHandler(String excelFileName, String sheetName) {
-        excelFilePath = "src/main/resources/Ops/" + excelFileName;
+        excelFilePath = "C:\\Users\\harschn\\Documents\\Climate Normal Verification\\Data Verification Live\\Sioux Lookout\\" + excelFileName;
     	try (FileInputStream fileInputStream = new FileInputStream(excelFilePath)) {
             
             workbook = WorkbookFactory.create(fileInputStream);

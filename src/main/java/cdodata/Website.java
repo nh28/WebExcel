@@ -23,6 +23,9 @@ abstract class Website {
 		int rowIndex = 0;
 		for (Element singleTable : allTables) {
 			String tableName = singleTable.select("a").first().text();
+			if (tableName.equals("Days With ...")){
+				tableName = "Days With...";
+			}
 			rowIndex = handler.findIndex(tableName, 211);
 			
 			if (tableName.equals("Frost-Free") || tableName.equals("Sans gel")) {
@@ -45,6 +48,7 @@ abstract class Website {
             	int colIndex = column;
             	
             	if (row.select("td").first() != null){
+            		
             		while(!(handler.findValue(rowIndex).toLowerCase().contains(rowName.toLowerCase()) || 
             				rowName.toLowerCase().contains(handler.findValue(rowIndex).toLowerCase())) 
             				&& rowIndex < 211){
