@@ -13,19 +13,20 @@ public class GenerateData {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the Data file names for Excel: ");
-		String excel1 = "1991-2020 - Normals - Data Plan - DataT_EN.xlsx";
-		String excel2 = "1991-2020 - Normals - Data Plan - DataT_FR.xlsx";
+		String excel1 = "1991-2020 Normals - Data Plan - DataT_EN.xlsx";
+		String excel2 = "1991-2020 Normals - Data Plan - DataT_FR.xlsx";
 		
 		System.out.println("Enter the Analytics file names for Excel: ");
-		String excel3 = "1991-2020 - Normals - Data Plan - AnalyticsT_EN.xlsx";
-		String excel4 = "1991-2020 - Normals - Data Plan - AnalyticsT_FR.xlsx";
+		String excel3 = "1991-2020 Normals - Data Plan - AnalyticsT_EN.xlsx";
+		String excel4 = "1991-2020 Normals - Data Plan - AnalyticsT_FR.xlsx";
 				
-		String sheetData = "Data- Archive-Web Tables"; 
+		String sheetData = "Data- Archive-Web Tables";
+		String sheetDataFR = "Data Archive Table-Web Table";
 		String sheetAnalytics =	"Analytic- Archive-Web Tables"; 
 				
 		System.out.println("Enter the websites (EN and FR) you want to extract from: ");
-		String webEN = "https://climate-stage.cmc.ec.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=london&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=184000000&dispBack=1";
-		String webFR = "https://climat-stage.cmc.ec.gc.ca/climate_normals/results_1991_2020_f.html?searchType=stnName_1991&txtStationName_1991=london&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=184000000&dispBack=1";
+		String webEN = "https://climate.weather.gc.ca/climate_normals/results_1991_2020_e.html?searchType=stnName_1991&txtStationName_1991=lookout&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=201000000&dispBack=1";
+		String webFR = "https://climat.meteo.gc.ca/climate_normals/results_1991_2020_f.html?searchType=stnName_1991&txtStationName_1991=lookout&searchMethod=contains&txtCentralLatMin=0&txtCentralLatSec=0&txtCentralLongMin=0&txtCentralLongSec=0&stnID=201000000&dispBack=1";
 		
 		try {
 			System.out.println("Getting Data...Please Wait");
@@ -35,7 +36,7 @@ public class GenerateData {
 			System.out.println("1/4 complete");
 			dataEN.handler.closeWorkbook();
 			
-			DataWebsite dataFR = new DataWebsite(excel2, sheetData);
+			DataWebsite dataFR = new DataWebsite(excel2, sheetDataFR);
 			dataFR.parseWebsite(webFR, dataFR.handler);
 			System.out.println("2/4 complete");
 			dataFR.handler.closeWorkbook();
